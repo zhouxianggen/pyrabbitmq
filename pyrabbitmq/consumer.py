@@ -19,7 +19,7 @@ class Consumer(Thread, PyObject):
             self.routing_key = self.queue + '.all'
         self._connect = None
         self._channel = None
-        self._closing = False
+        self._close = False
         self._tag = None
 
     def connect(self):
