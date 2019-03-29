@@ -27,8 +27,7 @@ class Consumer(Thread, PyObject):
             try:
                 self.log.info('connecting to %s' % self.url)
                 return pika.SelectConnection(pika.URLParameters(self.url),
-                                             self.on_connection_open,
-                                             stop_ioloop_on_close=False)
+                                             self.on_connection_open)
             except Exception as e:
                 self.log.exception(e)
                 time.sleep(1)
