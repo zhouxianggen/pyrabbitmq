@@ -56,7 +56,7 @@ class Consumer(Thread, PyObject):
             self._connect.ioloop.start()
 
     def open_channel(self):
-        self.log.info('creating a new channel')
+        self.log.info('open channel')
         self._connect.channel(on_open_callback=self.on_channel_open)
 
     def on_channel_open(self, channel):
@@ -71,9 +71,9 @@ class Consumer(Thread, PyObject):
 
     def setup_exchange(self, exchange_name):
         self.log.info('declaring exchange %s' % exchange_name)
-        self._channel.exchange_declare(self.on_exchange_declareok,
-                                       exchange_name,
-                                       self.exchange_type)
+        self._channel.exchange_declare(callback=self.on_exchange_declareok,
+                                       exchange=exchange_name,
+                                       exchange_type=self.exchange_type)
 
     def on_exchange_declareok(self, unused_frame):
         self.log.info('exchange declared')
@@ -81,14 +81,15 @@ class Consumer(Thread, PyObject):
 
     def setup_queue(self, queue_name):
         self.log.info('declaring queue %s' % queue_name)
-        self._channel.queue_declare(self.on_queue_declareok, queue_name, 
-                durable=True)
+        self._channel.queue_declare(callback=self.on_queue_declareok, 
+                queue=queue_name, durable=True)
 
     def on_queue_declareok(self, method_frame):
         self.log.info('binding %s to %s with %s' % (
                 self.exchange, self.queue, self.routing_key))
-        self._channel.queue_bind(self.on_bindok, self.queue,
-                                 self.exchange, self.routing_key)
+        self._channel.queue_bind(callback=self.on_bindok, queue=self.queue,
+                                 exchange=self.exchange, 
+                                 routing_key=self.routing_key)
         self._channel.basic_qos(prefetch_count=1)
 
     def on_bindok(self, unused_frame):
@@ -97,9 +98,10 @@ class Consumer(Thread, PyObject):
 
     def start_consuming(self):
         self.log.info('issuing consumer related RPC commands')
-        self._channel.add_on_cancel_callback(self.on_consumer_cancelled)
+        self._channel.add_on_cancel_callback(
+                callback=self.on_consumer_cancelled)
         self._tag = self._channel.basic_consume(
-                self.on_message, self.queue)
+                on_message_callback=self.on_message, queue=self.queue)
     
     def on_consumer_cancelled(self, method_frame):
         self.log.info('consumer was cancelled remotely, shutting down: %r' % 
