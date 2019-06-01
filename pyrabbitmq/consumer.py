@@ -65,9 +65,8 @@ class Consumer(Thread, PyObject):
         self._channel.add_on_close_callback(self.on_channel_closed)
         self.setup_exchange(self.exchange)
 
-    def on_channel_closed(self, channel, reply_code, reply_text):
-        self.log.warning('channel %i was closed: (%s) %s' % (
-                channel, reply_code, reply_text))
+    def on_channel_closed(self, *args, **kwargs):
+        self.log.warning('channel was closed')
         self._connect.close()
 
     def setup_exchange(self, exchange_name):

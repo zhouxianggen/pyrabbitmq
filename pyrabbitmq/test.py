@@ -5,7 +5,8 @@ from publisher import Publisher
 from consumer import Consumer
 from utils import qsize
 
-url = 'amqp://guest:guest@192.168.9.226:5672/%2F'
+#url = 'amqp://guest:guest@106.14.113.231:5672/%2F'
+url = 'amqp://guest:guest@114.55.176.222:5672/%2F'
 exchange = 'test'
 queue = 'test'
 
@@ -28,9 +29,10 @@ def test_consumer():
     w.daemon = True
     w.start()
 
-    print('wait 5s..')
-    time.sleep(5)
+    print('wait 4s..')
+    time.sleep(4)
     print('exit')
+
 
 #test_publisher()
 test_consumer()
