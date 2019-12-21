@@ -9,12 +9,14 @@ except ImportError:
 setup(
         name = 'pyrabbitmq',
         version = '1.0',
-        install_requires = ['pika'], 
-        description = 'provide python rabbitmq consumer, publisher.',
+        install_requires = [
+                'pika', 
+                'pybase @ git+ssh://git@github.com/zhouxianggen/pybase@master'], 
+        description = 'rabbitmq consumer, publisher',
         url = 'https://github.com/zhouxianggen//pyrabbitmq', 
         author = 'zhouxianggen',
         author_email = 'zhouxianggen@gmail.com',
-        classifiers = [ 'Programming Language :: Python :: 3.7',],
+        classifiers = [ 'Programming Language :: Python :: 3.8',],
         packages = ['pyrabbitmq'],
         data_files = [ ],  
         entry_points = { }   
