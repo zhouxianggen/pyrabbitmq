@@ -11,7 +11,7 @@ setup(
         version = '1.0',
         install_requires = [
                 'pika', 
-                'pybase @ git+ssh://git@github.com/zhouxianggen/pybase@master'], 
+                'pybase @ git+https://github.com/zhouxianggen/pybase.git@master'], 
         description = 'rabbitmq consumer, publisher',
         url = 'https://github.com/zhouxianggen//pyrabbitmq', 
         author = 'zhouxianggen',
